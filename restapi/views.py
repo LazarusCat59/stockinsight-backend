@@ -1,8 +1,16 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Data
-from .serializers import DataSerializer
+from . import models
+from . import serializers
 
-class DataViewSet(viewsets.ModelViewSet):
-    queryset = Data.objects.all()
-    serializer_class = DataSerializer
+class StockViewSet(viewsets.ModelViewSet):
+    queryset = models.Stock.objects.all()
+    serializer_class = serializers.StockSerializer
+
+class StockConditionViewSet(viewsets.ModelViewSet):
+    queryset = models.StockCondition.objects.all()
+    serializer_class = serializers.StockConditionSerializer
+
+class AuditDetailsViewSet(viewsets.ModelViewSet):
+    queryset = models.AuditDetails.objects.all()
+    serializer_class = serializers.AuditDetailsSerializer
