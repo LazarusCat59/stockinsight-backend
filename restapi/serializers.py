@@ -1,7 +1,17 @@
 from rest_framework import serializers
-from .models import Data
+from . import models 
 
-class DataSerializer(serializers.ModelSerializer):
+class StockSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Data
+        model = models.Stock
+        fields = '__all__'
+
+class StockConditionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.StockCondition
+        fields = '__all__'
+
+class AuditDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.AuditDetails
         fields = '__all__'
