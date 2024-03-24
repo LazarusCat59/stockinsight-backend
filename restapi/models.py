@@ -29,25 +29,26 @@ USER_ROLES= [
 ]
 
 class User(AbstractUser):
-    role = models.CharField(max_length=24, choices=USER_ROLES)
+    role = models.CharField(max_length=3, choices=USER_ROLES)
 
     def __str__(self):
         return self.username
 
-class StockCondition(models.Model):
-    condition = models.CharField(max_length=4, choices=CONDITIONS)
-    remarks = models.TextField()
-
-class Stock(models.Model):
-    id = models.IntegerField(primary_key=True)
-    condition = models.OneToOneField(StockCondition, on_delete=models.CASCADE)
-    category = models.CharField(max_length=3, choices=CATEGORIES)
-
 class AuditDetails(models.Model):
-    id = models.IntegerField(primary_key=True)
     auditor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     auditorname = models.CharField(max_length=256, default='auditor')
-    time = models.DateTimeField()
+    time = models.DateTimeField(default=now)
+    condition = models.CharField(max_length=4, choices=CONDITIONS)
+    remarks = models.TextField(null=True)
+
+class StockType(models.Model):
+    name = models.CharField(max_length=256)
+    category = models.CharField(max_length=3, choices=CATEGORIES)
+
+class Stock(models.Model):
+    name = models.CharField(max_length=256)
+    auditdetails = models.ForeignKey(AuditDetails, on_delete=models.CASCADE, null=True)
+    type = models.ForeignKey(StockType, on_delete=models.CASCADE, null=True)
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

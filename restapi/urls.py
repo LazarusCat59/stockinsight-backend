@@ -6,7 +6,7 @@ from rest_framework.authtoken import views as drf_views
 
 router = DefaultRouter()
 router.register(r'stock', views.StockViewSet)
-router.register(r'stockcondition', views.StockConditionViewSet)
+router.register(r'stockcondition', views.StockTypeViewSet)
 router.register(r'auditdetails', views.AuditDetailsViewSet)
 
 urlpatterns = [
