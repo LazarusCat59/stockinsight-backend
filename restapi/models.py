@@ -1,5 +1,10 @@
 from django.db import models
+from django.conf import settings
+from django.dispatch import receiver
+from django.utils.timezone import now
+from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
+from rest_framework.authtoken.models import Token
 
 CONDITIONS = [
         # Furniture
@@ -43,3 +48,8 @@ class AuditDetails(models.Model):
     auditor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     auditorname = models.CharField(max_length=256, default='auditor')
     time = models.DateTimeField()
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
