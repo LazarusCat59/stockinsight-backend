@@ -4,10 +4,7 @@ from . import views
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views as drf_views
 
-router = DefaultRouter()
-
 urlpatterns = [
-    path('api/', include(router.urls)),
     path('api/login/', drf_views.obtain_auth_token),
     re_path(r'api/stock/(?P<pk>[0-9]*)/', views.StockRUDView.as_view()),
     re_path(r'api/stocktype/(?P<pk>[0-9]*)/', views.StockTypeRUDView.as_view()),
