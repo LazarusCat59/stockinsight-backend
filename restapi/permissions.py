@@ -5,11 +5,11 @@ class AuditorOrReadOnly(BasePermission):
         if request.method in SAFE_METHODS:
             return True
         
-        return (request.user.role == 'ADT' | request.user.role == 'HOD')
+        return (request.user.role == 'ADT') | (request.user.role == 'HOD')
 
 class CustodianOrReadOnly(BasePermission):
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return True
         
-        return (request.user.role == 'CDN' | request.user.role == 'HOD')
+        return (request.user.role == 'CDN') | (request.user.role == 'HOD')
