@@ -6,10 +6,10 @@ from rest_framework.authtoken import views as drf_views
 
 router = DefaultRouter()
 router.register(r'stock', views.StockViewSet)
-router.register(r'stockcondition', views.StockTypeViewSet)
+router.register(r'stocktype', views.StockTypeViewSet)
 router.register(r'auditdetails', views.AuditDetailsViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('login/', drf_views.obtain_auth_token),
+    path('api/login/', drf_views.obtain_auth_token),
 ]
