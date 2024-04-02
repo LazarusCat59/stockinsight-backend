@@ -31,7 +31,7 @@ class User(AbstractUser):
 
 class AuditDetails(models.Model):
     auditor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    auditorname = models.CharField(max_length=256, default='auditor')
+    auditor_name = models.CharField(max_length=256, default='auditor')
     time = models.DateTimeField(default=now)
     condition = models.CharField(max_length=4, choices=CONDITIONS)
     remarks = models.TextField(null=True)
@@ -48,8 +48,9 @@ class StockType(models.Model):
 
 class Stock(models.Model):
     name = models.CharField(max_length=256)
-    auditdetails = models.ForeignKey(AuditDetails, on_delete=models.CASCADE, null=True)
+    audit_details = models.ForeignKey(AuditDetails, on_delete=models.CASCADE, null=True)
     type = models.ForeignKey(StockType, on_delete=models.CASCADE, null=True)
+    description = models.TextField(null=True)
 
     def __str__(self):
         return self.name
