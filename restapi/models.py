@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from django.conf import settings
 from django.dispatch import receiver
@@ -17,10 +18,17 @@ CATEGORIES = [
         ("FUR", "Furniture")
 ]
 
-USER_ROLES= [
+USER_ROLES = [
         ("ADT", "Auditor"),
         ("CDN", "Custodian"),
         ("HOD", "Head of Department")
+]
+
+LOCATIONS = [
+        ("CLS_1", "Classroom 1"),
+        ("LAB_1", "Laboratory 1"),
+        ("CSSTF", "Computer Science Staff Room"),
+        # TODO: Add actual stuff here
 ]
 
 class User(AbstractUser):
@@ -37,7 +45,7 @@ class AuditDetails(models.Model):
     remarks = models.TextField(null=True)
 
     def __str__(self):
-        return 'Audit by ' + self.auditorname + ' on ' + self.time.strftime('%d/%m/%y at %H:%M:%S')
+        return 'Audit by ' + self.auditor_name + ' on ' + self.time.strftime('%d/%m/%y at %H:%M:%S')
 
 class StockType(models.Model):
     name = models.CharField(max_length=256)
@@ -51,6 +59,10 @@ class Stock(models.Model):
     audit_details = models.ForeignKey(AuditDetails, on_delete=models.CASCADE, null=True)
     type = models.ForeignKey(StockType, on_delete=models.CASCADE, null=True)
     description = models.TextField(null=True)
+    item_code = models.CharField(max_length=64, default="AISAT/CSE/AA/BBB")
+    bill_no = models.CharField(max_length=64, default="0000.00")
+    purchase_date = models.DateField(default=date.today)
+    location = models.CharField(max_length=5, choices=LOCATIONS, default="LAB_1")
 
     def __str__(self):
         return self.name
