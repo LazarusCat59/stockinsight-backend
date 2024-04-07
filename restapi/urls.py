@@ -14,7 +14,7 @@ urlpatterns = [
     re_path(r'api/audit_create/', views.AuditDetailsCreateView.as_view()),
     path('api/stock_list/', views.StockListView.as_view()),
     path('api/stocktype_list/', views.StockTypeListView.as_view()),
-    path('api/auditdetails_list/', views.AuditDetailsListView.as_view()),
+    path('api/audit_list/', views.AuditDetailsListView.as_view()),
     path('api/stock_search/', views.StockSearchView.as_view()),
     path('api/stocktype_search/', views.StockTypeSearchView.as_view()),
 ]
