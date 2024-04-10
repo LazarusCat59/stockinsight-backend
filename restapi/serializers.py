@@ -15,3 +15,8 @@ class AuditDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AuditDetails
         fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = ('username', 'email', 'role')

@@ -6,6 +6,7 @@ from rest_framework.authtoken import views as drf_views
 
 urlpatterns = [
     path('api/login/', drf_views.obtain_auth_token),
+    path('api/register/', views.CreateUserView.as_view()),
     re_path(r'api/stock/(?P<pk>[0-9]*)/', views.StockRUDView.as_view()),
     re_path(r'api/stocktype/(?P<pk>[0-9]*)/', views.StockTypeRUDView.as_view()),
     re_path(r'api/audit/(?P<pk>[0-9]*)/', views.AuditDetailsRUDView.as_view()),
@@ -17,4 +18,5 @@ urlpatterns = [
     path('api/audit_list/', views.AuditDetailsListView.as_view()),
     path('api/stock_search/', views.StockSearchView.as_view()),
     path('api/stocktype_search/', views.StockTypeSearchView.as_view()),
+    path('api/user/', views.GetUserView.as_view()),
 ]

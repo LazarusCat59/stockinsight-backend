@@ -13,3 +13,7 @@ class CustodianOrReadOnly(BasePermission):
             return True
         
         return (request.user.role == 'CDN') | (request.user.role == 'HOD')
+
+class IsHOD(BasePermission):
+    def has_permission(self, request, view):
+        return (request.user.role == 'HOD')

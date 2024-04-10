@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from rest_framework import generics, authentication, views, status
-from rest_framework import permissions as drf_permissions
 from rest_framework.response import Response
-from . import permissions
+from rest_framework import permissions as drf_permissions
+from rest_framework import generics, authentication, views, status
+
 from . import models
+from . import permissions
 from . import serializers
 
 class StockListView(generics.ListAPIView):
@@ -77,3 +78,33 @@ class StockTypeSearchView(views.APIView):
             return Response(stocktypes)
         else:
             return Response({"detail":"No stocks starting with given name found"}, status=status.HTTP_404_NOT_FOUND)
+
+class GetUserView(views.APIView):
+    """
+    Get username, email and role of the current logged in user
+    """
+    def get(self, request, format=None):
+        user = serializers.UserSerializer(request.user).data
+
+        return Response(user)
+
+class CreateUserView(views.APIView):
+    permission_classes = [ drf_permissions.IsAuthenticated, permissions.IsHOD ]
+
+    def post(self, request, format=None):
+        if not (request.data.get("username") and request.data.get("password") and request.data.get("role")):
+            return Response({"detail":"username, password and the role must be included in request"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        username = request.data.get("username")
+        password = request.data.get("password")
+        email = request.data.get("email")
+        role = request.data.get("role")
+
+        if email:
+            user = models.User.objects.create_user(username=username, email=email, password=password, role=role)
+        else:
+            user = models.User.objects.create_user(username=username, password=password, role=role)
+
+        serializeduser = serializers.UserSerializer(user).data
+
+        return Response(serializeduser, status=status.HTTP_200_OK)
