@@ -15,9 +15,9 @@ class StockTypeListView(generics.ListAPIView):
     queryset = models.StockType.objects.all()
     serializer_class = serializers.StockTypeSerializer
 
-class AuditDetailsListView(generics.ListAPIView):
-    queryset = models.AuditDetails.objects.all()
-    serializer_class = serializers.AuditDetailsSerializer
+class AuditDetailListView(generics.ListAPIView):
+    queryset = models.AuditDetail.objects.all()
+    serializer_class = serializers.AuditDetailSerializer
 
 class StockRUDView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Stock.objects.all()
@@ -29,9 +29,9 @@ class StockTypeRUDView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.StockTypeSerializer
     permission_classes = [ drf_permissions.IsAuthenticated, permissions.CustodianOrReadOnly ]
 
-class AuditDetailsRUDView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.AuditDetails.objects.all()
-    serializer_class = serializers.AuditDetailsSerializer
+class AuditDetailRUDView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.AuditDetail.objects.all()
+    serializer_class = serializers.AuditDetailSerializer
     permission_classes = [ drf_permissions.IsAuthenticated, permissions.AuditorOrReadOnly ]
 
 class StockCreateView(generics.CreateAPIView):
@@ -44,9 +44,9 @@ class StockTypeCreateView(generics.CreateAPIView):
     serializer_class = serializers.StockTypeSerializer
     permission_classes = [ drf_permissions.IsAuthenticated, permissions.CustodianOrReadOnly ]
 
-class AuditDetailsCreateView(generics.CreateAPIView):
-    queryset = models.AuditDetails.objects.all()
-    serializer_class = serializers.AuditDetailsSerializer
+class AuditDetailCreateView(generics.CreateAPIView):
+    queryset = models.AuditDetail.objects.all()
+    serializer_class = serializers.AuditDetailSerializer
     permission_classes = [ drf_permissions.IsAuthenticated, permissions.AuditorOrReadOnly ]
 
 class StockSearchView(views.APIView):

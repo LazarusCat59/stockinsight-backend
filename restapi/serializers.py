@@ -11,9 +11,9 @@ class StockTypeSerializer(serializers.ModelSerializer):
         model = models.StockType
         fields = '__all__'
 
-class AuditDetailsSerializer(serializers.ModelSerializer):
+class AuditDetailSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.AuditDetails
+        model = models.AuditDetail
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):

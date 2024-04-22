@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, StockType, Stock, AuditDetails
+from .models import User, StockType, Stock, AuditDetail
 
 # Register your models here.
 class CustomUserAdmin(UserAdmin):
@@ -19,5 +19,5 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(User, CustomUserAdmin)
 
 admin.site.register(StockType)
-admin.site.register(AuditDetails)
+admin.site.register(AuditDetail)
 admin.site.register(Stock)

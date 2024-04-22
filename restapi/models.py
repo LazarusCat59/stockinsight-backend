@@ -37,7 +37,7 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-class AuditDetails(models.Model):
+class AuditDetail(models.Model):
     auditor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     auditor_name = models.CharField(max_length=256, default='auditor')
     time = models.DateTimeField(default=now)
@@ -56,7 +56,7 @@ class StockType(models.Model):
 
 class Stock(models.Model):
     name = models.CharField(max_length=256)
-    audit_details = models.ForeignKey(AuditDetails, on_delete=models.CASCADE, null=True)
+    audit_details = models.ForeignKey(AuditDetail, on_delete=models.CASCADE, null=True)
     type = models.ForeignKey(StockType, on_delete=models.CASCADE, null=True)
     description = models.TextField(null=True)
     item_code = models.CharField(max_length=64, default="AISAT/CSE/AA/BBB")
@@ -66,6 +66,13 @@ class Stock(models.Model):
 
     def __str__(self):
         return self.name
+
+class Computer(models.Model):
+    mouse = models.ForeignKey(Stock, related_name="stock_mouse", on_delete=models.CASCADE)
+    keyboard = models.ForeignKey(Stock, related_name="stock_keyboard", on_delete=models.CASCADE)
+    monitor = models.ForeignKey(Stock, related_name="stock_monitor", on_delete=models.CASCADE)
+    cpu = models.ForeignKey(Stock, related_name="stock_cpu", on_delete=models.CASCADE)
+    description = models.TextField(null=True)
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
