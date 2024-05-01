@@ -68,6 +68,7 @@ class Stock(models.Model):
         return self.name
 
 class Computer(models.Model):
+    name = models.CharField(max_length=256)
     mouse = models.ForeignKey(Stock, related_name="stock_mouse", on_delete=models.CASCADE)
     keyboard = models.ForeignKey(Stock, related_name="stock_keyboard", on_delete=models.CASCADE)
     monitor = models.ForeignKey(Stock, related_name="stock_monitor", on_delete=models.CASCADE)

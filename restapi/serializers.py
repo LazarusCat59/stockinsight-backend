@@ -30,3 +30,15 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.User
         fields = ('username', 'email', 'role')
+
+class ComputerSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Computer
+        fields = '__all__'
+        extra_kwargs = {
+                'url' : { 'view_name' : 'computer-detail' },
+                'keyboard' : { 'view_name' : 'stock-detail' },
+                'mouse' : { 'view_name' : 'stock-detail' },
+                'monitor' : { 'view_name' : 'stock-detail' },
+                'cpu' : { 'view_name' : 'stock-detail' },
+        }

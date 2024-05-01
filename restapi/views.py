@@ -19,9 +19,18 @@ class AuditDetailListView(generics.ListAPIView):
     queryset = models.AuditDetail.objects.all()
     serializer_class = serializers.AuditDetailSerializer
 
+class ComputerListView(generics.ListAPIView):
+    queryset = models.Computer.objects.all()
+    serializer_class = serializers.ComputerSerializer
+
 class StockRUDView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Stock.objects.all()
     serializer_class = serializers.StockSerializer
+    permission_classes = [ drf_permissions.IsAuthenticated, permissions.CustodianOrReadOnly ]
+
+class ComputerRUDView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Computer.objects.all()
+    serializer_class = serializers.ComputerSerializer
     permission_classes = [ drf_permissions.IsAuthenticated, permissions.CustodianOrReadOnly ]
 
 class StockTypeRUDView(generics.RetrieveUpdateDestroyAPIView):
@@ -37,6 +46,11 @@ class AuditDetailRUDView(generics.RetrieveUpdateDestroyAPIView):
 class StockCreateView(generics.CreateAPIView):
     queryset = models.Stock.objects.all()
     serializer_class = serializers.StockSerializer
+    permission_classes = [ drf_permissions.IsAuthenticated, permissions.CustodianOrReadOnly ]
+
+class ComputerCreateView(generics.CreateAPIView):
+    queryset = models.Computer.objects.all()
+    serializer_class = serializers.ComputerSerializer
     permission_classes = [ drf_permissions.IsAuthenticated, permissions.CustodianOrReadOnly ]
 
 class StockTypeCreateView(generics.CreateAPIView):
