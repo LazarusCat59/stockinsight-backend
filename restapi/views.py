@@ -10,6 +10,7 @@ from . import serializers
 class StockListView(generics.ListAPIView):
     queryset = models.Stock.objects.all()
     serializer_class = serializers.StockSerializer
+    filterset_fields = ("name", "location")
 
 class StockTypeListView(generics.ListAPIView):
     queryset = models.StockType.objects.all()
