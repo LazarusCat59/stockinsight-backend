@@ -33,20 +33,21 @@ class Command(BaseCommand):
 
         rows = []
 
+        self.stdout.write(f"Opening {filename}")
         with open(filename, "r") as file:
             rows = list(csv.reader(file))
 
+        self.stdout.write("Processing rows..")
         temp_row = rows[1]
         for row in rows[1:]:
-            # print(row)
             validated_row = validate_row(row, temp_row)
             temp_row = validated_row
 
-            name = validated_row[1]
+            name = validated_row[1].strip()
             bill_no = validated_row[3].split('.')[0].strip()
             purchase_date = datetime.datetime.strptime(validated_row[3].split('.')[1].strip(), "%d/%b/%Y").date()
-            description = validated_row[9]
-            item_code = validated_row[2]
+            description = validated_row[9].strip()
+            item_code = validated_row[2].strip()
 
             # self.stdout.write(f"{bill_no} {purchase_date} {description} {item_code}")
 
@@ -54,3 +55,5 @@ class Command(BaseCommand):
                 create_computer(bill_no, purchase_date, item_code, description)
             else:
                 Stock.objects.create(name=name, bill_no=bill_no, purchase_date=purchase_date, item_code=item_code, description=description)
+
+        self.stdout.write("Import complete!")
