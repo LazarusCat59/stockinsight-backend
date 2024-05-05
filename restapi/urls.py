@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/stock_search/', views.StockSearchView.as_view(), name='stock-search'),
     path('api/stocktype_search/', views.StockTypeSearchView.as_view(), name='stocktype-search'),
     path('api/user/', views.GetUserView.as_view(), name='user-detail'),
+    path('api/locations/', views.GetLocationsView.as_view(), name='locations'),
 ]

@@ -122,3 +122,17 @@ class CreateUserView(views.APIView):
         serializeduser = serializers.UserSerializer(user).data
 
         return Response(serializeduser, status=status.HTTP_200_OK)
+
+class GetLocationsView(views.APIView):
+    def get(self, request, format=None):
+        len = 0
+        locations = dict()
+        locations["locations"] = []
+
+        for i, j in models.LOCATIONS:
+            len += 1
+            locations["locations"].append({"code": i, "name": j})
+
+        locations["length"] = len
+
+        return Response(locations, status=status.HTTP_200_OK)
