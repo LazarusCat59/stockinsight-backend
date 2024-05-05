@@ -75,6 +75,9 @@ class Computer(models.Model):
     cpu = models.ForeignKey(Stock, related_name="stock_cpu", on_delete=models.CASCADE)
     description = models.TextField(null=True)
 
+    def __str__(self):
+        return self.name
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:

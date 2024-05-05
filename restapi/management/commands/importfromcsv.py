@@ -20,7 +20,7 @@ def create_computer(bill_no, purchase_date, item_code, description):
     cpu = Stock.objects.create(name="Generic CPU", bill_no=bill_no, item_code=item_code, purchase_date=purchase_date)
     monitor = Stock.objects.create(name="Generic Monitor", bill_no=bill_no, item_code=item_code, purchase_date=purchase_date)
 
-    return Computer.objects.create(keyboard=kb, mouse=mouse, cpu=cpu, monitor=monitor, description=description)
+    return Computer.objects.create(name="Computer", keyboard=kb, mouse=mouse, cpu=cpu, monitor=monitor, description=description)
 
 class Command(BaseCommand):
     help = "Adds data from a csv file into database"
