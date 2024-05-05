@@ -2,6 +2,7 @@ from rest_framework import serializers
 from . import models 
 
 class StockSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = models.Stock
         fields = '__all__'
@@ -11,6 +12,7 @@ class StockSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 class StockTypeSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = models.StockType
         fields = '__all__'
@@ -19,6 +21,7 @@ class StockTypeSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 class AuditDetailSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = models.AuditDetail
         fields = '__all__'
@@ -32,6 +35,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('username', 'email', 'role')
 
 class ComputerSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = models.Computer
         fields = '__all__'
