@@ -27,7 +27,7 @@ USER_ROLES = [
 LOCATIONS = [
         ("CLS_1", "Classroom 1"),
         ("LAB_1", "Laboratory 1"),
-        ("CSSTF", "Computer Science Staff Room"),
+        ("LAB_2", "Laboratory 2"),
         # TODO: Add actual stuff here
 ]
 
