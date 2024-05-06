@@ -9,8 +9,8 @@ from rest_framework.authtoken.models import Token
 
 CONDITIONS = [
         ("GOOD", "Good"),
-        ("SDMG", "Slightly damaged"),
-        ("BRKN", "Broken"),
+        ("AVRG", "Average"),
+        ("BRKN", "Bad"),
 ]
 
 CATEGORIES = [

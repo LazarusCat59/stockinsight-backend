@@ -11,6 +11,7 @@ urlpatterns = [
     re_path(r'api/computer/(?P<pk>[0-9]*)/', views.ComputerRUDView.as_view(), name='computer-detail'),
     re_path(r'api/stocktype/(?P<pk>[0-9]*)/', views.StockTypeRUDView.as_view(), name='stocktype-detail'),
     re_path(r'api/audit/(?P<pk>[0-9]*)/', views.AuditDetailRUDView.as_view(), name='audit-detail'),
+    re_path(r'api/user/(?P<pk>[0-9]*)/', views.UsersView.as_view(), name='user-detail'),
     path(r'api/stock_create/', views.StockCreateView.as_view(), name='stock-create'),
     path(r'api/computer_create/', views.StockCreateView.as_view(), name='computer-create'),
     path(r'api/stocktype_create/', views.StockTypeCreateView.as_view(), name='stocktype-create'),
@@ -21,6 +22,8 @@ urlpatterns = [
     path('api/audit_list/', views.AuditDetailListView.as_view(), name='audit-list'),
     path('api/stock_search/', views.StockSearchView.as_view(), name='stock-search'),
     path('api/stocktype_search/', views.StockTypeSearchView.as_view(), name='stocktype-search'),
-    path('api/user/', views.GetUserView.as_view(), name='user-detail'),
+    path('api/currentuser/', views.GetCurrentUserView.as_view(), name='currentuser-detail'),
     path('api/locations/', views.GetLocationsView.as_view(), name='locations'),
+    path('api/conditions/', views.GetConditionsView.as_view(), name='locations'),
+    path('api/categories/', views.GetCategoriesView.as_view(), name='locations'),
 ]

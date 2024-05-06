@@ -64,6 +64,10 @@ class AuditDetailCreateView(generics.CreateAPIView):
     serializer_class = serializers.AuditDetailSerializer
     permission_classes = [ drf_permissions.IsAuthenticated, permissions.AuditorOrReadOnly ]
 
+class UsersView(generics.RetrieveAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UserSerializer
+
 class StockSearchView(views.APIView):
     """
     View used for searching stock with name parameter
@@ -87,14 +91,14 @@ class StockTypeSearchView(views.APIView):
         if not request.GET.get("name"):
             return Response({"detail":"name must be included in request"}, status=status.HTTP_400_BAD_REQUEST)
 
-        stocktypes = [serializers.StockTypeSerializer(s).data for s in models.StockType.objects.all() if s.name.startswith(request.GET.get("name"))]
+        stockcategories = [serializers.StockTypeSerializer(s).data for s in models.StockType.objects.all() if s.name.startswith(request.GET.get("name"))]
 
-        if(stocktypes):
-            return Response(stocktypes)
+        if(stockcategories):
+            return Response(stockcategories)
         else:
             return Response({"detail":"No stocks starting with given name found"}, status=status.HTTP_404_NOT_FOUND)
 
-class GetUserView(views.APIView):
+class GetCurrentUserView(views.APIView):
     """
     Get username, email and role of the current logged in user
     """
@@ -128,12 +132,40 @@ class GetLocationsView(views.APIView):
     def get(self, request, format=None):
         len = 0
         locations = dict()
-        locations["locations"] = []
+        locations["results"] = []
 
         for i, j in models.LOCATIONS:
             len += 1
-            locations["locations"].append({"code": i, "name": j})
+            locations["results"].append({"code": i, "name": j})
 
         locations["length"] = len
 
         return Response(locations, status=status.HTTP_200_OK)
+
+class GetConditionsView(views.APIView):
+    def get(self, request, format=None):
+        len = 0
+        conditions = dict()
+        conditions["results"] = []
+
+        for i, j in models.CONDITIONS:
+            len += 1
+            conditions["results"].append({"code": i, "name": j})
+
+        conditions["length"] = len
+
+        return Response(conditions, status=status.HTTP_200_OK)
+
+class GetCategoriesView(views.APIView):
+    def get(self, request, format=None):
+        len = 0
+        categories = dict()
+        categories["results"] = []
+
+        for i, j in models.CATEGORIES:
+            len += 1
+            categories["results"].append({"code": i, "name": j})
+
+        categories["length"] = len
+
+        return Response(categories, status=status.HTTP_200_OK)

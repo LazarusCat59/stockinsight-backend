@@ -9,6 +9,7 @@ class StockSerializer(serializers.HyperlinkedModelSerializer):
         extra_kwargs = {
                 'url': { 'view_name' : 'stock-detail' },
                 'type' : { 'view_name' : 'stocktype-detail' },
+                'audit_details' : { 'view_name' : 'audit-detail' },
         }
 
 class StockTypeSerializer(serializers.HyperlinkedModelSerializer):
