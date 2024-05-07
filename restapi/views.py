@@ -74,7 +74,11 @@ class GetCurrentUserView(views.APIView):
     Get username, email and role of the current logged in user
     """
     def get(self, request, format=None):
-        user = serializers.UserSerializer(request.user).data
+        serializer_context = {
+                'request' : request
+        }
+
+        user = serializers.UserSerializer(request.user, context=serializer_context).data
 
         return Response(user)
 
@@ -95,7 +99,11 @@ class CreateUserView(views.APIView):
         else:
             user = models.User.objects.create_user(username=username, password=password, role=role)
 
-        serializeduser = serializers.UserSerializer(user).data
+        serializer_context = {
+                'request' : request
+        }
+
+        serializeduser = serializers.UserSerializer(user, context=serializer_context).data
 
         return Response(serializeduser, status=status.HTTP_200_OK)
 
@@ -140,3 +148,16 @@ class GetCategoriesView(views.APIView):
         categories["length"] = len
 
         return Response(categories, status=status.HTTP_200_OK)
+
+class GetAuditedStocksView(views.APIView):
+    def get(self, request, format=None):
+        auditedstocks = models.Stock.objects.exclude(audit_details=None)
+        count = len(auditedstocks)
+
+        serializer_context = {
+                'request' : request
+        }
+
+        serializedstocks = [serializers.StockSerializer(x, context=serializer_context).data for x in auditedstocks]
+
+        return Response({"count" : count, "results" : serializedstocks, "previous" : None, "next" : None}, status = status.HTTP_200_OK)

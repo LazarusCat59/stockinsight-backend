@@ -24,6 +24,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.User
         fields = ('url', 'username', 'email', 'role')
+        extra_kwargs = {
+                'url' : { 'view_name' : 'user-detail' },
+        }
 
 class ComputerSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField(read_only=True)

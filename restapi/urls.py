@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/locations/', views.GetLocationsView.as_view(), name='locations'),
     path('api/conditions/', views.GetConditionsView.as_view(), name='locations'),
     path('api/categories/', views.GetCategoriesView.as_view(), name='locations'),
+    path('api/auditedstocks/', views.GetAuditedStocksView.as_view(), name='auditedstocks'),
 ]
