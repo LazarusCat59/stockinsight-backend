@@ -12,10 +12,6 @@ class StockListView(generics.ListAPIView):
     serializer_class = serializers.StockSerializer
     filterset_fields = ("name", "location")
 
-class StockTypeListView(generics.ListAPIView):
-    queryset = models.StockType.objects.all()
-    serializer_class = serializers.StockTypeSerializer
-
 class AuditDetailListView(generics.ListAPIView):
     queryset = models.AuditDetail.objects.all()
     serializer_class = serializers.AuditDetailSerializer
@@ -34,11 +30,6 @@ class ComputerRUDView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.ComputerSerializer
     permission_classes = [ drf_permissions.IsAuthenticated, permissions.CustodianOrReadOnly ]
 
-class StockTypeRUDView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.StockType.objects.all()
-    serializer_class = serializers.StockTypeSerializer
-    permission_classes = [ drf_permissions.IsAuthenticated, permissions.CustodianOrReadOnly ]
-
 class AuditDetailRUDView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.AuditDetail.objects.all()
     serializer_class = serializers.AuditDetailSerializer
@@ -52,11 +43,6 @@ class StockCreateView(generics.CreateAPIView):
 class ComputerCreateView(generics.CreateAPIView):
     queryset = models.Computer.objects.all()
     serializer_class = serializers.ComputerSerializer
-    permission_classes = [ drf_permissions.IsAuthenticated, permissions.CustodianOrReadOnly ]
-
-class StockTypeCreateView(generics.CreateAPIView):
-    queryset = models.StockType.objects.all()
-    serializer_class = serializers.StockTypeSerializer
     permission_classes = [ drf_permissions.IsAuthenticated, permissions.CustodianOrReadOnly ]
 
 class AuditDetailCreateView(generics.CreateAPIView):
@@ -80,21 +66,6 @@ class StockSearchView(views.APIView):
 
         if(stocks):
             return Response(stocks)
-        else:
-            return Response({"detail":"No stocks starting with given name found"}, status=status.HTTP_404_NOT_FOUND)
-
-class StockTypeSearchView(views.APIView):
-    """
-    View used for searching stock with name parameter
-    """
-    def get(self, request, format=None):
-        if not request.GET.get("name"):
-            return Response({"detail":"name must be included in request"}, status=status.HTTP_400_BAD_REQUEST)
-
-        stockcategories = [serializers.StockTypeSerializer(s).data for s in models.StockType.objects.all() if s.name.startswith(request.GET.get("name"))]
-
-        if(stockcategories):
-            return Response(stockcategories)
         else:
             return Response({"detail":"No stocks starting with given name found"}, status=status.HTTP_404_NOT_FOUND)
 

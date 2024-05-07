@@ -47,17 +47,11 @@ class AuditDetail(models.Model):
     def __str__(self):
         return 'Audit by ' + self.auditor_name + ' on ' + self.time.strftime('%d/%m/%y at %H:%M:%S')
 
-class StockType(models.Model):
-    name = models.CharField(max_length=256)
-    category = models.CharField(max_length=3, choices=CATEGORIES)
-
-    def __str__(self):
-        return self.name
 
 class Stock(models.Model):
     name = models.CharField(max_length=256)
     audit_details = models.ForeignKey(AuditDetail, on_delete=models.CASCADE, null=True)
-    type = models.ForeignKey(StockType, on_delete=models.CASCADE, null=True)
+    category = models.CharField(max_length=3, choices=CATEGORIES)
     description = models.TextField(null=True)
     item_code = models.CharField(max_length=64, default="AISAT/CSE/AA/BBB")
     bill_no = models.CharField(max_length=64, default="0000.00")

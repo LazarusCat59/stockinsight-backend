@@ -8,17 +8,7 @@ class StockSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
         extra_kwargs = {
                 'url': { 'view_name' : 'stock-detail' },
-                'type' : { 'view_name' : 'stocktype-detail' },
                 'audit_details' : { 'view_name' : 'audit-detail' },
-        }
-
-class StockTypeSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    class Meta:
-        model = models.StockType
-        fields = '__all__'
-        extra_kwargs = {
-                'url': { 'view_name' : 'stocktype-detail' },
         }
 
 class AuditDetailSerializer(serializers.HyperlinkedModelSerializer):
@@ -33,7 +23,7 @@ class AuditDetailSerializer(serializers.HyperlinkedModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.User
-        fields = ('username', 'email', 'role')
+        fields = ('url', 'username', 'email', 'role')
 
 class ComputerSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField(read_only=True)
