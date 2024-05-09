@@ -72,6 +72,13 @@ class Computer(models.Model):
     def __str__(self):
         return self.name
 
+class Assignment(models.Model):
+    auditor = models.ForeignKey(User, on_delete=models.CASCADE)
+    location = models.CharField(max_length=5, choices=LOCATIONS)
+
+    def __str__(self):
+        return f"{self.auditor.username}'s assignment at {self.location}"
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:

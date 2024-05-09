@@ -21,9 +21,10 @@ class AuditDetailSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = models.User
-        fields = ('url', 'username', 'email', 'role')
+        fields = ('id', 'url', 'username', 'email', 'role')
         extra_kwargs = {
                 'url' : { 'view_name' : 'user-detail' },
         }
@@ -40,3 +41,9 @@ class ComputerSerializer(serializers.HyperlinkedModelSerializer):
                 'monitor' : { 'view_name' : 'stock-detail' },
                 'cpu' : { 'view_name' : 'stock-detail' },
         }
+
+class AssignmentSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    class Meta:
+        model = models.Assignment
+        fields = '__all__'

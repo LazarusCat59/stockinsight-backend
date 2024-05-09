@@ -54,12 +54,25 @@ class UsersView(generics.RetrieveAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
 
+class AssignmentCreateView(generics.CreateAPIView):
+    queryset = models.Assignment.objects.all()
+    serializer_class = serializers.AssignmentSerializer
+    permission_classes = [ drf_permissions.IsAuthenticated, permissions.IsHOD ]
+
+class AssignmentListView(generics.ListAPIView):
+    queryset = models.Assignment.objects.all()
+    serializer_class = serializers.AssignmentSerializer
+
+class AssignmentRUDView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Assignment.objects.all()
+    serializer_class = serializers.AssignmentSerializer
+
 class StockSearchView(views.APIView):
     """
     View used for searching stock with name parameter
     """
     def get(self, request, format=None):
-        if not request.GET.get("name"):
+        if not request.data.get("name"):
             return Response({"detail":"name must be included in request"}, status=status.HTTP_400_BAD_REQUEST)
 
         stocks = [serializers.StockSerializer(s).data for s in models.Stock.objects.all() if s.name.startswith(request.GET.get("name"))]
@@ -161,3 +174,34 @@ class GetAuditedStocksView(views.APIView):
         serializedstocks = [serializers.StockSerializer(x, context=serializer_context).data for x in auditedstocks]
 
         return Response({"count" : count, "results" : serializedstocks, "previous" : None, "next" : None}, status = status.HTTP_200_OK)
+
+class GetUnassignedAuditorView(views.APIView):
+    def get(self, request, format=None):
+        auditors = models.User.objects.filter(role="ADT")
+        assigned_auditors = [x.auditor for x in models.Assignment.objects.all()]
+
+        serializer_context = {
+                'request' : request
+        }
+
+        unassigned_auditors = [serializers.UserSerializer(x, context=serializer_context).data for x in auditors if x not in assigned_auditors]
+        count = len(unassigned_auditors)
+
+        return Response({ "count" : count, "results" : unassigned_auditors, "previous" : None, "next" : None}, status = status.HTTP_200_OK)
+
+class GetAssignmentView(views.APIView):
+    def get(self, request, format=None):
+        try:
+            assignment = models.Assignment.objects.get(auditor=request.user)
+        except models.Assignment.DoesNotExist:
+            assignment = None
+
+        serializer_context = {
+                'request' : request
+        }
+        
+        if assignment:
+            serialized_assignment = serializers.AssignmentSerializer(assignment, context=serializer_context).data
+            return Response(serialized_assignment, status=status.HTTP_200_OK)
+        else:
+            return Response({"detail": "No assignments available"}, status=status.HTTP_204_NO_CONTENT)
