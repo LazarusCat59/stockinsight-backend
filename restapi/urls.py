@@ -28,4 +28,5 @@ urlpatterns = [
     path('api/auditedstocks/', views.GetAuditedStocksView.as_view(), name='auditedstocks'),
     path('api/unassignedauditors/', views.GetUnassignedAuditorView.as_view(), name='unassignedauditors'),
     path('api/getassignment/', views.GetAssignmentView.as_view(), name='getassignment'),
+    path('api/attachaudit/', views.AttachAudit.as_view(), name='attachaudit'),
 ]

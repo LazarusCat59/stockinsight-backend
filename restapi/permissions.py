@@ -17,3 +17,11 @@ class CustodianOrReadOnly(BasePermission):
 class IsHOD(BasePermission):
     def has_permission(self, request, view):
         return (request.user.role == 'HOD')
+
+class IsAuditor(BasePermission):
+    def has_permission(self, request, view):
+        return (request.user.role == 'ADT') | (request.user.role == 'HOD')
+
+class IsCustodian(BasePermission):
+    def has_permission(self, request, view):
+        return (request.user.role == 'CDN') | (request.user.role == 'HOD')

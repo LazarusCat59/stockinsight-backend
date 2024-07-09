@@ -116,9 +116,9 @@ class CreateUserView(views.APIView):
                 'request' : request
         }
 
-        serializeduser = serializers.UserSerializer(user, context=serializer_context).data
+        serialized_user = serializers.UserSerializer(user, context=serializer_context).data
 
-        return Response(serializeduser, status=status.HTTP_200_OK)
+        return Response(serialized_user, status=status.HTTP_201_CREATED)
 
 class GetLocationsView(views.APIView):
     def get(self, request, format=None):
@@ -205,3 +205,32 @@ class GetAssignmentView(views.APIView):
             return Response(serialized_assignment, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "No assignments available"}, status=status.HTTP_204_NO_CONTENT)
+
+class AttachAudit(views.APIView):
+    permission_classes = [ drf_permissions.IsAuthenticated, permissions.IsAuditor ]
+    def post(self, request, format=None):
+        stock_id = request.data.get("stock_id")
+        audit_id = request.data.get("audit_id")
+
+        if not (stock_id and audit_id):
+            return Response({"detail":"stock_id and audit_id must be included in request"}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer_context = {
+                'request' : request
+        }
+
+        try:
+            stock = models.Stock.objects.get(id=stock_id)
+        except models.Stock.DoesNotExist:
+            return Response({"detail": "No stock found with given ID"}, status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            audit = models.AuditDetail.objects.get(id=audit_id)
+        except models.AuditDetail.DoesNotExist:
+            return Response({"detail": "No audit found with given ID"}, status=status.HTTP_404_NOT_FOUND)
+        
+        stock.audit_details = audit
+        stock.save()
+
+        serialized_stock = serializers.StockSerializer(stock, context=serializer_context).data
+        return Response(serialized_stock, status=status.HTTP_201_CREATED)
